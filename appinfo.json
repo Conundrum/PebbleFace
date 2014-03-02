@@ -1,0 +1,18 @@
+{
+    "versionLabel": "1.0",
+    "uuid": "41ae80e0-2d52-445d-9372-703eac6c7f2e",
+    "appKeys": {},
+    "longName": "test watch",
+    "versionCode": 1,
+    "capabilities": [
+        ""
+    ],
+    "shortName": "test watch",
+    "companyName": "conundrum2k@gmail.com",
+    "watchapp": {
+        "watchface": true
+    },
+    "resources": {
+        "media": []
+    }
+}
