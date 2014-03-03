@@ -22,7 +22,7 @@ static void handle_minute_tick(struct tm* tick_time, TimeUnits units_changed) {
 
   strftime(time_text, sizeof(time_text), "%T", tick_time);
   text_layer_set_text(time_layer, time_text);
-  text_layer_set_text_alignment(time_layer, GAlignCenter);
+  
 }
 
 
@@ -44,9 +44,9 @@ static void do_init(void) {
 
   
   // Init the text layer used to show the time
-  time_layer = text_layer_create(GRect(5, 5, 139, 51 /* height */));
+  time_layer = text_layer_create(GRect(5, 9, 144-5, 56-9 /* height */));
   text_layer_set_text_color(time_layer, GColorBlack);
-  
+  text_layer_set_text_alignment(time_layer, GTextAlignmentCenter);
   text_layer_set_background_color(time_layer, GColorClear);
   text_layer_set_font(time_layer, fonts_get_system_font(FONT_KEY_DROID_SERIF_28_BOLD));
   
