@@ -11,6 +11,8 @@
 // App-specific data
 Window *window; // All apps must have at least one window
 TextLayer *time_layer; // The clock
+static GBitmap *background_image;  // declare background image
+static BitmapLayer *background_layer; // background image layer
 
 // Called once per second
 static void handle_minute_tick(struct tm* tick_time, TimeUnits units_changed) {
@@ -30,12 +32,22 @@ static void do_init(void) {
   window = window_create();
   window_stack_push(window, true);
   window_set_background_color(window, GColorWhite);
+  
+  Layer *window_layer = window_get_root_layer(window);
 
+  background_image = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_BACKGROUND);
+  background_layer = bitmap_layer_create(layer_get_frame(window_layer));
+  bitmap_layer_set_bitmap(background_layer, background_image);
+  layer_add_child(window_layer, bitmap_layer_get_layer(background_layer));
+
+
+  
   // Init the text layer used to show the time
-  time_layer = text_layer_create(GRect(29, 54, 144-40 /* width */, 168-54 /* height */));
+  time_layer = text_layer_create(GRect(29, 14, 144-40 /* width */, 168-54 /* height */));
   text_layer_set_text_color(time_layer, GColorBlack);
   text_layer_set_background_color(time_layer, GColorClear);
   text_layer_set_font(time_layer, fonts_get_system_font(FONT_KEY_GOTHIC_28_BOLD));
+  
 
   // Ensures time is displayed immediately (will break if NULL tick event accessed).
   // (This is why it's a good idea to have a separate routine to do the update itself.)
@@ -48,8 +60,16 @@ static void do_init(void) {
 }
 
 static void do_deinit(void) {
+  // destroy background
+  layer_remove_from_parent(bitmap_layer_get_layer(background_layer));
+  bitmap_layer_destroy(background_layer);
+  gbitmap_destroy(background_image);
+  
+  
   text_layer_destroy(time_layer);
   window_destroy(window);
+  
+  
 }
 
 // The main event/run loop for our app
